@@ -1,34 +1,51 @@
 <context>
 
-    <sample>
-        <item value="Кто такая Алиса"/>
-        <item value="Что такое бот"/>
-    </sample>
+    
 
     <input pattern="* (привет*|здравствуй*) *">
         <output if="full($UserName)">
-            <item value="Привет, $UserName! Рада снова видеть тебя!"/>
-            <item value="Здравствуй, $UserName! Я уже успела соскучиться..."/>
+            <item value="Привет, $UserName! Рада снова видеть тебя! Хочешь кушать?"/>
+			<item value="Здравствуй, $UserName! Я уже успела соскучиться..."/>
+			<sample>
+        <item value="Да"/>
+        <item value="Давай поищем"/>
+    </sample>
         </output>
 
-        <context if="empty($UserName)" id="name">
-            <output value="Привет! Меня зовут Алиса! А это - демонстрация моего навыка, созданного с помощью платформы zenbot. Как тебя зовут?"/>
+        <context if="empty($UserName)" id="user">
+            <output value="Привет! Меня зовут Эльза из Эль Патио! Как зовут тебя?"/>
 
             <input pattern="$Text">
                 <var name="UserName" value="cap($Text)" scope="user"/>
-                <output value="Приятно познакомиться, $UserName! Напиши мне что-нибудь."/>
-                <context/>
+                <output value="Отлично, $UserName! Теперь поищем, что бы поесть?."/>
+				<sample>
+        <item value="Да"/>
+        <item value="Давай поищем"/>
+    </sample>
+               
             </input>
         </context>
     </input>
 
-    <input pattern="* пока *">
-        <var name="end_session" value="javascript: true"/>
-        <output value="Ну пока, незнакомец!" if="empty($UserName)"/>
-        <output value="Пока-пока, $UserName!"/>
+    <input pattern="* (Да*|Давай*|Конечно*) *">
+		<output value="Отлично, Пицца, суши или Бургеры?."/>
+		<sample>
+	<item value="Пицца"/>
+  <item value="Суши"/>
+<item value="Бургеры"/> 
+</sample>
     </input>
 
-    <input pattern="[* (кто|что) так*] $Text">
+	<input pattern="Пицца">
+               	
+                <output value="Отлично, в Новокунецке есть несколько отличных пицерий"/>
+     
+            </input>
+			
+
+
+
+	<input pattern="[* (кто|что) так*] $Text">
         <context id="name" if="empty($UserName)"/>
 
         <context id="wiki" if="full($UserName)">
