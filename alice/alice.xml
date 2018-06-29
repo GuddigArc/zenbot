@@ -1,33 +1,36 @@
 <context>
 
-    <sample>
-        <item value="Кто такая Алиса"/>
-        <item value="Что такое бот"/>
-    </sample>
+    
 
     <input pattern="* (привет*|здравствуй*) *">
         <output if="full($UserName)">
-            <item value="Привет, $UserName! Рада снова видеть тебя!"/>
-            <item value="Здравствуй, $UserName! Я уже успела соскучиться..."/>
+            <item value="Привет, $UserName! Рада снова видеть тебя! Хочешь кушать?"/>
+        
         </output>
 
-        <context if="empty($UserName)" id="name">
-            <output value="Привет! Меня зовут Алиса! А это - демонстрация моего навыка, созданного с помощью платформы zenbot. Как тебя зовут?"/>
+        <context if="empty($UserName)" id="log">
+            <output value="Привет! Меня зовут Эльза из Эль Патио! Как зовут тебя?"/>
 
             <input pattern="$Text">
-                <var name="UserName" value="cap($Text)" scope="user"/>
-                <output value="Приятно познакомиться, $UserName! Напиши мне что-нибудь."/>
+                <var name="UserName" value="cap($Text)" scope="log"/>
+                <output value="Отлично, $UserName! Теперь поищем, что бы поесть?."/>
                 <context/>
             </input>
         </context>
     </input>
 
-    <input pattern="* пока *">
-        <var name="end_session" value="javascript: true"/>
-        <output value="Ну пока, незнакомец!" if="empty($UserName)"/>
-        <output value="Пока-пока, $UserName!"/>
+    <input pattern="* (Да*|Давай*|Конечно*) *">
+		<output value="Отлично, в каком ты городе?."/>
+	<sample>
+        <item value="Да"/>
+        <item value="Давай поищем"/>
+    </sample>
     </input>
-
+<input pattern="$Text">
+                <var name="Gorod" value="cap($Text)" scope="gorod"/>
+                <output value="Отлично, город - $Gorod! Пицца, суши или Бургеры?."/>
+                
+            </input>
     <input pattern="[* (кто|что) так*] $Text">
         <context id="name" if="empty($UserName)"/>
 
